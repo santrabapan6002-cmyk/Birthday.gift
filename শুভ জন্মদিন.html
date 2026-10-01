@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শুভ জন্মদিন!</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Anek Bangla', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            border-radius: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Floating Animation for Balloons */
+        .balloon {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+            opacity: 0.8;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Balloon Positions & Delays */
+        .b1 { left: 10%; animation-delay: 0s; top: 20%; }
+        .b2 { right: 15%; animation-delay: 1.5s; top: 10%; }
+        .b3 { left: 20%; animation-delay: 3s; bottom: 15%; }
+        .b4 { right: 25%; animation-delay: 2s; bottom: 20%; }
+        .b5 { left: 50%; animation-delay: 1s; top: 5%; font-size: 2rem; }
+
+        /* Pulse Animation for Button */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 105, 180, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+        }
+
+        /* Fade in for dynamic text */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="relative px-4 py-10">
+
+    <div class="balloon b1">🎈</div>
+    <div class="balloon b2">🎉</div>
+    <div class="balloon b3">🎁</div>
+    <div class="balloon b4">🎈</div>
+    <div class="balloon b5">✨</div>
+
+    <div class="glass-card relative z-10 w-full max-w-lg p-8 sm:p-12 text-center">
+        
+        <!-- Birthday Cake Icon -->
+        <div class="text-6xl sm:text-8xl mb-6 bounce">
+            🎂
+        </div>
+
+        <!-- Greeting Heading -->
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4 drop-shadow-md">
+            শুভ জন্মদিন!
+        </h1>
+
+        <!-- Subheading / Friend Name Placeholder -->
+        <h2 class="text-xl sm:text-2xl font-semibold text-pink-600 mb-6">
+            আমার প্রিয় বন্ধু,
+        </h2>
+
+        <!-- Initial Message Paragraph -->
+        <p id="birthday-message" class="text-lg sm:text-xl text-gray-700 leading-relaxed mb-8">
+            তোমার জীবনের এই বিশেষ দিনটি আনন্দে, ভালোবাসায় আর হাসিতে ভরে উঠুক। সামনের প্রতিটি দিন যেন তোমার জন্য নতুন সাফল্য আর খুশি নিয়ে আসে!
+        </p>
+
+        <button id="surprise-btn" class="btn-pulse bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition-all transform hover:scale-110">
+            এখানে ক্লিক করো! 🎁
+        </button>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('surprise-btn');
+            const messageEl = document.getElementById('birthday-message');
+            let clicked = false;
+
+            btn.addEventListener('click', () => {
+                // Trigger Confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7']
+                });
+
+                // Change text if not already changed
+                if (!clicked) {
+                    clicked = true;
+                    
+                    // Fade out briefly
+                    messageEl.style.opacity = 0;
+                    
+                    setTimeout(() => {
+                        // Update message
+                        messageEl.innerHTML = "তুমি আমার জীবনের এক অমূল্য উপহার। <br> আগামী দিনগুলো তোমার জন্য আরও সুন্দর হোক! <br> অনেক অনেক ভালোবাসা! ❤️✨";
+                        
+                        // Add fade-in animation class
+                        messageEl.classList.add('fade-in');
+                        messageEl.style.opacity = 1;
+
+                        // Change button text
+                        btn.innerText = "আবার ক্লিক করো! 🎉";
+                    }, 300);
+                } else {
+                    // Just shoot more confetti on subsequent clicks!
+                    confetti({
+                        particleCount: 100,
+                        spread: 120,
+                        origin: { y: 0.5 }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
